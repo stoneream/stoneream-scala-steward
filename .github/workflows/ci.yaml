@@ -19,7 +19,7 @@ jobs:
         id: generate-token
         uses: actions/create-github-app-token@64ab729a6294000f5aa4a4bc0b73d1f32bc45510 # https://github.com/actions/create-github-app-token/tree/v3.3.0
         with:
-          client-id: 5450213 # App ID
+          client-id: Iv23liEOBr6doOzpifoo
           private-key: ${{ secrets.SS_PRIVATE_KEY }}
           owner: ${{ github.repository_owner }}
       - name: Launch Scala Steward
