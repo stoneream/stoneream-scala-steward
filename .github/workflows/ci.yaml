@@ -22,6 +22,10 @@ jobs:
           client-id: Iv23liEOBr6doOzpifoo
           private-key: ${{ secrets.SS_PRIVATE_KEY }}
           owner: ${{ github.repository_owner }}
+      - name: Use HTTPS for GitHub submodules
+        run: |
+          git config --global --add url."https://github.com/".insteadOf 'git@github.com:'
+          git config --global --add url."https://github.com/".insteadOf 'ssh://git@github.com/'
       - name: Launch Scala Steward
         uses: scala-steward-org/scala-steward-action@3e5cae868160200afda12b57c150e56cede989ab # https://github.com/scala-steward-org/scala-steward-action/tree/v2.97.0
         with:
