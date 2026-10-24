@@ -1,0 +1,32 @@
+name: CI
+on:
+  schedule:
+    - cron: '0 0 * * 0'
+  pull_request:
+  push:
+  workflow_dispatch:
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # https://github.com/actions/checkout/tree/v7.0.1
+        with:
+          persist-credentials: false
+      - name: Generate token
+        id: generate-token
+        uses: actions/create-github-app-token@64ab729a6294000f5aa4a4bc0b73d1f32bc45510 # https://github.com/actions/create-github-app-token/tree/v3.3.0
+        with:
+          client-id: ${{ vars.SS_CLIENT_ID }}
+          private-key: ${{ secrets.SS_PRIVATE_KEY }}
+          owner: ${{ github.repository_owner }}
+      - name: Launch Scala Steward
+        uses: scala-steward-org/scala-steward-action@3e5cae868160200afda12b57c150e56cede989ab # https://github.com/scala-steward-org/scala-steward-action/tree/v2.97.0
+        with:
+          github-token: ${{ steps.generate-token.outputs.token }}
+          author-name: "stoneream-scala-steward[bot]"
+          # https://api.github.com/users/stoneream-scala-steward%5Bbot%5D
+          author-email: "347181854+stoneream-scala-steward[bot]@users.noreply.github.com"
+          repos-file: 'repos.md'
